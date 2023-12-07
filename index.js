@@ -1,9 +1,9 @@
 // index.js
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
-//const server = express();
+
 const app = express();
-const prisma = new PrismaClient();
+//const prisma = new PrismaClient();
 
 const userRouter = require("./routes/userRouter");
 const movieCatalogRouter = require("./routes/movieCatalogRouter");
@@ -27,9 +27,8 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is listening on Port:${PORT}`);
 });
-//close the prisma Client when your application exits
 
+// Close the Prisma Client when your application exits
 process.on("beforeExit", () => {
   prisma.$disconnect();
-  //process.exit(0);
 });
