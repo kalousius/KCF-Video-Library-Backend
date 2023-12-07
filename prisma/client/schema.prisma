@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../prisma/client" // Corrected output path
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Define your database model here
+model User {
+  id           Int            @id @default(autoincrement())
+  fullName     String         @map("full_name")
+  email        String         @unique
+  username     String         @unique
+  password     String
+  role         String         @default("admin") // Updated default value
+  movieCatalog MovieCatalog[]
+  orderDetails OrderDetails[]
+}
+
+model MovieCatalog {
+  id           Int            @id @default(autoincrement())
+  title        String
+  description  String
+  price        Float
+  rating       Float
+  imageUrl     String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  userId       Int
+  user         User           @relation(fields: [userId], references: [id])
+  movieDetails MovieDetails[]
+}
+
+model MovieDetails {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String
+  director    String
+  price       Float
+  rating      Float
+  imageUrl    String? // Updated field definition
+  createdAt   DateTime     @default(now())
+  movieId     Int
+  movie       MovieCatalog @relation(fields: [movieId], references: [id])
+}
+
+model OrderDetails {
+  id         Int              @id @default(autoincrement())
+  status     String           @default("pending")
+  totalPrice Float            @default(0)
+  quantity   Int              @default(1)
+  customerId Int
+  items      Json             @db.Json
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  userId     Int
+  user       User             @relation(fields: [userId], references: [id])
+  payments   PaymentDetails[]
+}
+
+model PaymentDetails {
+  id            Int          @id @default(autoincrement())
+  amountPaid    Float        @default(0)
+  paymentMethod String       @default("credit card")
+  orderId       Int
+  order         OrderDetails @relation(fields: [orderId], references: [id])
+  transactionId String       @default("transaction-id")
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+enum Role {
+  superAdmin
+  admin
+  client
+}
