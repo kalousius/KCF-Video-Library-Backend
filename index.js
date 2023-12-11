@@ -1,9 +1,14 @@
-// index.js
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
-//const server = express();
+const bodyParser = require("body-parser"); // Import body-parser
+const path = require("path");
+
 const app = express();
 const prisma = new PrismaClient();
+
+// Use body-parser middleware to parse JSON and url-encoded data
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const userRouter = require("./routes/userRouter");
 const movieCatalogRouter = require("./routes/movieCatalogRouter");
@@ -17,6 +22,18 @@ app.use("/api/v1/movieCatalog", movieCatalogRouter);
 app.use("/api/v1/orderDetails", orderDetailsRouter);
 app.use("/api/v1/paymentDetails", paymentDetailsRouter);
 
+// Route to serve the addMovieForm.html
+app.get("/add-movie-form", (req, res) => {
+  const filePath = path.join(__dirname, "views", "addMovieForm.html");
+  res.sendFile(filePath);
+});
+
+// Serve the users.html file when the root route is accessed
+app.get("/users.html", (req, res) => {
+  const filePath = path.join(__dirname, "views", "users.html");
+  res.sendFile(filePath);
+});
+
 app.get("/api/v1/", async (req, res) => {
   // Example: Fetch all users using Prisma Client
   const users = await prisma.user.findMany();
@@ -27,9 +44,8 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is listening on Port:${PORT}`);
 });
-//close the prisma Client when your application exits
 
-process.on("beforeExit", () => {
-  prisma.$disconnect();
-  //process.exit(0);
-});
+// Close the Prisma Client when your application exits
+// process.on("beforeExit", () => {
+//   prisma.$disconnect();
+// });

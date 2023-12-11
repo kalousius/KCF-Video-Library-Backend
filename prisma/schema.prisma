@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../prisma/client" // Corrected output path
 }
 
 datasource db {
@@ -27,8 +26,8 @@ model MovieCatalog {
   id           Int            @id @default(autoincrement())
   title        String
   description  String
-  price        Float
-  rating       Float
+  price        Int
+  rating       Int
   imageUrl     String?
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
@@ -42,8 +41,8 @@ model MovieDetails {
   title       String
   description String
   director    String
-  price       Float
-  rating      Float
+  price       Int
+  rating      Int
   imageUrl    String? // Updated field definition
   createdAt   DateTime     @default(now())
   movieId     Int
@@ -53,7 +52,7 @@ model MovieDetails {
 model OrderDetails {
   id         Int              @id @default(autoincrement())
   status     String           @default("pending")
-  totalPrice Float            @default(0)
+  totalPrice Int              @default(0)
   quantity   Int              @default(1)
   customerId Int
   items      Json             @db.Json
@@ -66,7 +65,7 @@ model OrderDetails {
 
 model PaymentDetails {
   id            Int          @id @default(autoincrement())
-  amountPaid    Float        @default(0)
+  amountPaid    Int          @default(0)
   paymentMethod String       @default("credit card")
   orderId       Int
   order         OrderDetails @relation(fields: [orderId], references: [id])
