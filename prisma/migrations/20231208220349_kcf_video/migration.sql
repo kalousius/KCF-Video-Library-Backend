@@ -34,8 +34,8 @@ CREATE TABLE "MovieDetails" (
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "director" TEXT NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL,
-    "rating" DOUBLE PRECISION NOT NULL,
+    "price" INTEGER NOT NULL,
+    "rating" INTEGER NOT NULL,
     "imageUrl" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "movieId" INTEGER NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE "MovieDetails" (
 CREATE TABLE "OrderDetails" (
     "id" SERIAL NOT NULL,
     "status" TEXT NOT NULL DEFAULT 'pending',
-    "totalPrice" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "totalPrice" INTEGER NOT NULL DEFAULT 0,
     "quantity" INTEGER NOT NULL DEFAULT 1,
     "customerId" INTEGER NOT NULL,
     "items" JSON NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE "OrderDetails" (
 -- CreateTable
 CREATE TABLE "PaymentDetails" (
     "id" SERIAL NOT NULL,
-    "amountPaid" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "amountPaid" INTEGER NOT NULL DEFAULT 0,
     "paymentMethod" TEXT NOT NULL DEFAULT 'credit card',
     "orderId" INTEGER NOT NULL,
     "transactionId" TEXT NOT NULL DEFAULT 'transaction-id',

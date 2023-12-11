@@ -58,6 +58,40 @@ UpdateAt
  model(prisma)
   ## using prisma
   install prisma
+   - npm install prisma --save-dev
+   - npx prisma init
+   - npx prisma generate
+   ##  Use Prisma Client in Your Application Code:
+    - const { PrismaClient } = require('@prisma/client');
+    - const prisma = new PrismaClient();
+    - Use prisma to interact with your database
   npx prisma init
+ ## KCF-Video-Library -backend /
+  KCF-Video-Library-Backend/
+|-- controllers/
+|   |-- userController.js
+|   |-- movieCatalogController.js
+|   |-- movieDetailsController.js
+|   |-- orderDetailsController.js
+|   |-- paymentDetailsController.js
+|-- routes/
+|   |-- userRouter.js
+|   |-- movieCatalogRouter.js
+|   |-- movieDetailsRouter.js
+|   |-- orderDetailsRouter.js
+|   |-- paymentDetailsRouter.js
+|-- views/
+|   |-- addMovieForm.html
+|-- .env
+|-- .gitignore
+|-- node_modules/
+|-- prisma/
+|   |-- schema.prisma
+|   |-- seed.js
+|-- .git
+|-- index.js
+|-- package.json
+|-- package-lock.json
+
   
 

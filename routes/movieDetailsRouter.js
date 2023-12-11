@@ -1,7 +1,20 @@
 const express = require("express");
-const getmovieDetails = require("../controllers/movieDetailsController");
 const router = express.Router();
+const {
+  getMovieDetails,
+  createMovie,
+} = require("../controllers/movieDetailsController");
 
-router.get("/", getmovieDetails);
+// GET movie details
+router.get("/", getMovieDetails);
+
+// GET: Render the add movie form
+router.get("/add", (req, res) => {
+  // Use __dirname to get the current directory
+  res.sendFile(__dirname + "/../Views/addMovieForm.html");
+});
+
+// POST create new movie
+router.post("/create", createMovie);
 
 module.exports = router;
